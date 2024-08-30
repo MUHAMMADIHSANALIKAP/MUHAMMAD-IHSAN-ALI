@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Proposed JSON-RPC method: wallet_getAssetBalance - EIPs interfaces - Fellowship of Ethereum Magicians</title>
+    <meta name="description" content="With intents, multi-chain transactions, and other tools, accounts will increasingly be making use of “just in time” funding when transacting. Apps can no longer rely on calls like address.balance or erc20.balanceOf to kn&amp;hellip;">
+    <meta name="generator" content="Discourse 3.4.0.beta1-dev - https://github.com/discourse/discourse version fc33826dc55e1e6427eea7adb005e4aed45ccba5">
+<link rel="icon" type="image/png" href="https://ethereum-magicians.org/uploads/default/optimized/1X/e7e24c4c6e978a9d54fc38841bc9503d61acdcb8_2_32x32.png">
+<link rel="apple-touch-icon" type="image/png" href="https://ethereum-magicians.org/uploads/default/optimized/1X/4c1d2f876559adc5ce5f4115fe2019d38ccac3db_2_180x180.png">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#002B36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<link rel="canonical" href="https://ethereum-magicians.org/t/proposed-json-rpc-method-wallet-getassetbalance/18578" />
+
+<link rel="search" type="application/opensearchdescription+xml" href="https://ethereum-magicians.org/opensearch.xml" title="Fellowship of Ethereum Magicians Search">
+
+    <link href="/stylesheets/color_definitions_base__2_5b046297d6b95186d8c2db04eb1612dbbd127039.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" class="light-scheme"/><link href="/stylesheets/color_definitions_solarized-dark_3_2_c213d4dd025c8c770fe6a6b767539387b3e6cd4a.css?__ws=ethereum-magicians.org" media="(prefers-color-scheme: dark)" rel="stylesheet" class="dark-scheme"/>
+
+  <link href="/stylesheets/desktop_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="desktop"  />
+
+
+
+  <link href="/stylesheets/automation_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="automation"  />
+  <link href="/stylesheets/checklist_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="checklist"  />
+  <link href="/stylesheets/discourse-ai_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="discourse-ai"  />
+  <link href="/stylesheets/discourse-details_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="discourse-details"  />
+  <link href="/stylesheets/discourse-lazy-videos_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="discourse-lazy-videos"  />
+  <link href="/stylesheets/discourse-local-dates_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="discourse-local-dates"  />
+  <link href="/stylesheets/discourse-narrative-bot_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="discourse-narrative-bot"  />
+  <link href="/stylesheets/discourse-presence_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="discourse-presence"  />
+  <link href="/stylesheets/discourse-templates_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="discourse-templates"  />
+  <link href="/stylesheets/docker_manager_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="docker_manager"  />
+  <link href="/stylesheets/footnote_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="footnote"  />
+  <link href="/stylesheets/poll_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="poll"  />
+  <link href="/stylesheets/spoiler-alert_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="spoiler-alert"  />
+  <link href="/stylesheets/discourse-ai_desktop_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="discourse-ai_desktop"  />
+  <link href="/stylesheets/poll_desktop_61f31da062b1d07718f5cbd692623da465feeb64.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="poll_desktop"  />
+
+  <link href="/stylesheets/desktop_theme_4_fb100e57df702241ec72a6f2f9a8ae15fd82fa42.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="desktop_theme" data-theme-id="4" data-theme-name="dark-light toggle"/>
+<link href="/stylesheets/desktop_theme_2_b0f502dcd3a4f1b1ded8d772668c9ef57660fa44.css?__ws=ethereum-magicians.org" media="all" rel="stylesheet" data-target="desktop_theme" data-theme-id="2" data-theme-name="default"/>
+
+    
+<script defer="" src="/theme-javascripts/12b359c27533100b8d4713133e5516a90071f138.js?__ws=ethereum-magicians.org" data-theme-id="2" nonce="msMjsJqLvnUc8ClfHUEzzmJxc"></script>
+
+    
+        <link rel="alternate nofollow" type="application/rss+xml" title="RSS feed of &#39;Proposed JSON-RPC method: wallet_getAssetBalance&#39;" href="https://ethereum-magicians.org/t/proposed-json-rpc-method-wallet-getassetbalance/18578.rss" />
+    <meta property="og:site_name" content="Fellowship of Ethereum Magicians" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="https://ethereum-magicians.org/uploads/default/original/1X/4c1d2f876559adc5ce5f4115fe2019d38ccac3db.png" />
+<meta property="og:image" content="https://ethereum-magicians.org/uploads/default/original/1X/4c1d2f876559adc5ce5f4115fe2019d38ccac3db.png" />
+<meta property="og:url" content="https://ethereum-magicians.org/t/proposed-json-rpc-method-wallet-getassetbalance/18578" />
+<meta name="twitter:url" content="https://ethereum-magicians.org/t/proposed-json-rpc-method-wallet-getassetbalance/18578" />
+<meta property="og:title" content="Proposed JSON-RPC method: wallet_getAssetBalance" />
+<meta name="twitter:title" content="Proposed JSON-RPC method: wallet_getAssetBalance" />
+<meta property="og:description" content="With intents, multi-chain transactions, and other tools, accounts will increasingly be making use of “just in time” funding when transacting. Apps can no longer rely on calls like address.balance or erc20.balanceOf to know an account’s spending power.  I propose a new wallet RPC to help, something like wallet_getAssetBalance(account_address, chainId, asset_address).  Very open to feedback. Want to start a conversation. One question I have: should this RPC try to make use of some more universal a..." />
+<meta name="twitter:description" content="With intents, multi-chain transactions, and other tools, accounts will increasingly be making use of “just in time” funding when transacting. Apps can no longer rely on calls like address.balance or erc20.balanceOf to know an account’s spending power.  I propose a new wallet RPC to help, something like wallet_getAssetBalance(account_address, chainId, asset_address).  Very open to feedback. Want to start a conversation. One question I have: should this RPC try to make use of some more universal a..." />
+<meta property="og:article:section" content="EIPs" />
+<meta property="og:article:section:color" content="12A89D" />
+<meta property="og:article:section" content="EIPs interfaces" />
+<meta property="og:article:section:color" content="283890" />
+<meta property="og:article:tag" content="intents" />
+<meta property="og:article:tag" content="json-rpc" />
+<meta property="og:article:tag" content="wallet" />
+<meta name="twitter:label1" value="Reading time" />
+<meta name="twitter:data1" value="1 mins 🕑" />
+<meta name="twitter:label2" value="Likes" />
+<meta name="twitter:data2" value="8 ❤" />
+<meta property="article:published_time" content="2024-02-09T17:09:43+00:00" />
+<meta property="og:ignore_canonical" content="true" />
+
+
+    
+  </head>
+  <body class="crawler ">
+    
+    <header>
+  <a href="/">
+    Fellowship of Ethereum Magicians
+  </a>
+</header>
+
+    <div id="main-outlet" class="wrap" role="main">
+        <div id="topic-title">
+    <h1>
+      <a href="/t/proposed-json-rpc-method-wallet-getassetbalance/18578">Proposed JSON-RPC method: wallet_getAssetBalance</a>
+    </h1>
+
+      <div class="topic-category" itemscope itemtype="http://schema.org/BreadcrumbList">
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a href="/c/eips/eips-interfaces/45" class="badge-wrapper bullet" itemprop="item">
+              <span class='badge-category-bg' style='background-color: #12A89D'></span>
+              <span class='badge-category clear-badge'>
+                <span class='category-name' itemprop='name'>EIPs</span>
+              </span>
+            </a>
+            <meta itemprop="position" content="1" />
+          </span>
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a href="/c/eips/eips-interfaces/45" class="badge-wrapper bullet" itemprop="item">
+              <span class='badge-category-bg' style='background-color: #283890'></span>
+              <span class='badge-category clear-badge'>
+                <span class='category-name' itemprop='name'>EIPs interfaces</span>
+              </span>
+            </a>
+            <meta itemprop="position" content="2" />
+          </span>
+      </div>
+
+      <div class="topic-category">
+        <div class='discourse-tags list-tags'>
+            <a href='https://ethereum-magicians.org/tag/intents' class='discourse-tag' rel="tag">intents</a>, 
+            <a href='https://ethereum-magicians.org/tag/json-rpc' class='discourse-tag' rel="tag">json-rpc</a>, 
+            <a href='https://ethereum-magicians.org/tag/wallet' class='discourse-tag' rel="tag">wallet</a>
+        </div>
+      </div>
+  </div>
+
+  
+
+    <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <meta itemprop='headline' content='Proposed JSON-RPC method: wallet_getAssetBalance'>
+      <link itemprop='url' href='https://ethereum-magicians.org/t/proposed-json-rpc-method-wallet-getassetbalance/18578'>
+      <meta itemprop='datePublished' content='2024-02-09T17:09:43Z'>
+        <meta itemprop='articleSection' content='EIPs interfaces'>
+      <meta itemprop='keywords' content='intents, json-rpc, wallet'>
+      <div itemprop='publisher' itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop='name' content='Fellowship of Ethereum Magicians'>
+          <div itemprop='logo' itemscope itemtype="http://schema.org/ImageObject">
+            <meta itemprop='url' content='https://ethereum-magicians.org/uploads/default/original/1X/2092eaa2a0afb6bcd7834deaada6f65a23b2bea0.png'>
+          </div>
+      </div>
+
+
+          <div id='post_1'  class='topic-body crawler-post'>
+            <div class='crawler-post-meta'>
+              <span class="creator" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <a itemprop="url" href='https://ethereum-magicians.org/u/wilsoncusack'><span itemprop='name'>wilsoncusack</span></a>
+                
+              </span>
+
+                <link itemprop="mainEntityOfPage" href="https://ethereum-magicians.org/t/proposed-json-rpc-method-wallet-getassetbalance/18578">
+
+
+              <span class="crawler-post-infos">
+                  <time  datetime='2024-02-09T17:09:43Z' class='post-time'>
+                    February 9, 2024,  5:09pm
+                  </time>
+                  <meta itemprop='dateModified' content='2024-02-13T16:17:49Z'>
+              <span itemprop='position'>1</span>
+              </span>
+            </div>
+            <div class='post' itemprop='text'>
+              <p>With intents, multi-chain transactions, and other tools, accounts will increasingly be making use of “just in time” funding when transacting. Apps can no longer rely on calls like <code>address.balance</code> or <code>erc20.balanceOf</code> to know an account’s spending power.</p>
+<p>I propose a new wallet RPC to help, something like <code>wallet_getAssetBalance(account_address, chainId, asset_address)</code>.</p>
+<p>Very open to feedback. Want to start a conversation. One question I have: should this RPC try to make use of some more universal asset identifier? Or, because most apps care about a specific asset on a specific chain, chain + address is sufficient.</p>
+            </div>
+
+            <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+              <meta itemprop="interactionType" content="http://schema.org/LikeAction"/>
+              <meta itemprop="userInteractionCount" content="5" />
+              <span class='post-likes'>5 Likes</span>
+            </div>
+
+          </div>
+          <div id='post_2' itemprop='comment' itemscope itemtype='http://schema.org/Comment' class='topic-body crawler-post'>
+            <div class='crawler-post-meta'>
+              <span class="creator" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <a itemprop="url" href='https://ethereum-magicians.org/u/kristofgazso'><span itemprop='name'>kristofgazso</span></a>
+                
+              </span>
+
+
+
+              <span class="crawler-post-infos">
+                  <time itemprop='datePublished' datetime='2024-02-09T18:22:25Z' class='post-time'>
+                    February 9, 2024,  6:22pm
+                  </time>
+                  <meta itemprop='dateModified' content='2024-02-09T18:22:25Z'>
+              <span itemprop='position'>2</span>
+              </span>
+            </div>
+            <div class='post' itemprop='text'>
+              <p>Feel like this could be a good fit as a <a href="https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-25.md" rel="noopener nofollow ugc">CAIP-25</a> extension actually.</p>
+<p>When it comes to a universal asset identifier, I imagine it might be a bit overkill and could be implemented by the wallet at the library level. Especially with quirks like some tokens having a different amount of decimals on different chains, bridged → native token migrations, etc.</p>
+<p>Or how were you imagining it?</p>
+            </div>
+
+            <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+              <meta itemprop="interactionType" content="http://schema.org/LikeAction"/>
+              <meta itemprop="userInteractionCount" content="2" />
+              <span class='post-likes'>2 Likes</span>
+            </div>
+
+          </div>
+          <div id='post_3' itemprop='comment' itemscope itemtype='http://schema.org/Comment' class='topic-body crawler-post'>
+            <div class='crawler-post-meta'>
+              <span class="creator" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <a itemprop="url" href='https://ethereum-magicians.org/u/wilsoncusack'><span itemprop='name'>wilsoncusack</span></a>
+                
+              </span>
+
+
+
+              <span class="crawler-post-infos">
+                  <time itemprop='datePublished' datetime='2024-02-09T18:26:48Z' class='post-time'>
+                    February 9, 2024,  6:26pm
+                  </time>
+                  <meta itemprop='dateModified' content='2024-02-09T18:26:48Z'>
+              <span itemprop='position'>3</span>
+              </span>
+            </div>
+            <div class='post' itemprop='text'>
+              <p>hmm how do you think as a CAIP-25 extension? Would be part of handshake? Seems like a lot to ask about all possible asset balances. E.g. imagine connecting to Uniswap.</p>
+<p>Re universal identifier, maybe the field is just 32 bytes long so that people have some space for extra info. E.g. in the ERC1155 case, you would want to pass both the asset address and the token id.</p>
+            </div>
+
+            <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+              <meta itemprop="interactionType" content="http://schema.org/LikeAction"/>
+              <meta itemprop="userInteractionCount" content="0" />
+              <span class='post-likes'></span>
+            </div>
+
+          </div>
+          <div id='post_4' itemprop='comment' itemscope itemtype='http://schema.org/Comment' class='topic-body crawler-post'>
+            <div class='crawler-post-meta'>
+              <span class="creator" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <a itemprop="url" href='https://ethereum-magicians.org/u/kristofgazso'><span itemprop='name'>kristofgazso</span></a>
+                
+              </span>
+
+
+
+              <span class="crawler-post-infos">
+                  <time itemprop='datePublished' datetime='2024-02-10T01:40:17Z' class='post-time'>
+                    February 10, 2024,  1:40am
+                  </time>
+                  <meta itemprop='dateModified' content='2024-02-10T01:40:17Z'>
+              <span itemprop='position'>4</span>
+              </span>
+            </div>
+            <div class='post' itemprop='text'>
+              <p>Oh no a CAIP extension would not require all the balances to be given at once, it would just mean that the dapp would check during the handshake whether the wallet supports wallet_getAssetBalance (and the wallet would confirm or deny), and the dapp would use that method if supported, otherwise fall back to erc20 getBalance</p>
+            </div>
+
+            <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+              <meta itemprop="interactionType" content="http://schema.org/LikeAction"/>
+              <meta itemprop="userInteractionCount" content="1" />
+              <span class='post-likes'>1 Like</span>
+            </div>
+
+          </div>
+          <div id='post_5' itemprop='comment' itemscope itemtype='http://schema.org/Comment' class='topic-body crawler-post'>
+            <div class='crawler-post-meta'>
+              <span class="creator" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <a itemprop="url" href='https://ethereum-magicians.org/u/wilsoncusack'><span itemprop='name'>wilsoncusack</span></a>
+                
+              </span>
+
+
+
+              <span class="crawler-post-infos">
+                  <time itemprop='datePublished' datetime='2024-02-17T17:55:32Z' class='post-time'>
+                    February 17, 2024,  5:55pm
+                  </time>
+                  <meta itemprop='dateModified' content='2024-02-17T17:55:32Z'>
+              <span itemprop='position'>5</span>
+              </span>
+            </div>
+            <div class='post' itemprop='text'>
+              <p>Ah yeah, that’s a good idea.</p>
+<p>Also wondering if we could just add a method to viem/wagmi that optimistically tries this Wallet RPC, and falls back to a normal balance change.</p>
+<p>Also thinking more about the asset identifier maybe</p>
+<pre><code class="lang-auto">{ 
+  type: bytes12 // "ERC20" | "ERC1155" | "..."
+  address: Address
+}
+</code></pre>
+<p>or we could pull chainId into the asset identifier as well</p>
+<pre><code class="lang-auto">{ 
+  chainId: uint24
+  type: bytes9 // "ERC20" | "ERC1155" | "..."
+  address: Address
+}
+</code></pre>
+<p>Bytes9 might be too constraining for type. Fitting this all into bytes32 is somewhat of an ar</p>
+            </div>
+
+            <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+              <meta itemprop="interactionType" content="http://schema.org/LikeAction"/>
+              <meta itemprop="userInteractionCount" content="0" />
+              <span class='post-likes'></span>
+            </div>
+
+          </div>
+          <div id='post_6' itemprop='comment' itemscope itemtype='http://schema.org/Comment' class='topic-body crawler-post'>
+            <div class='crawler-post-meta'>
+              <span class="creator" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <a itemprop="url" href='https://ethereum-magicians.org/u/bumblefudge'><span itemprop='name'>bumblefudge</span></a>
+                
+              </span>
+
+
+
+              <span class="crawler-post-infos">
+                  <time itemprop='datePublished' datetime='2024-02-21T18:58:23Z' class='post-time'>
+                    February 21, 2024,  6:58pm
+                  </time>
+                  <meta itemprop='dateModified' content='2024-02-21T22:06:43Z'>
+              <span itemprop='position'>6</span>
+              </span>
+            </div>
+            <div class='post' itemprop='text'>
+              <aside class="quote no-group" data-username="kristofgazso" data-post="4" data-topic="18578">
+<div class="title">
+<div class="quote-controls"></div>
+<img loading="lazy" alt="" width="24" height="24" src="https://ethereum-magicians.org/user_avatar/ethereum-magicians.org/kristofgazso/48/3640_2.png" class="avatar"> kristofgazso:</div>
+<blockquote>
+<p>the dapp would check during the handshake whether the wallet supports wallet_getAssetBalance (and the wallet would confirm or deny), and the dapp would use that method if supported, otherwise fall back to erc20 getBalance</p>
+</blockquote>
+</aside>
+<p>the way this is done in today’s CAIP-25 (no new extensions needed) is that a dapp would request an RPC method like <code>wallet_getAssetBalance</code> and, (if both wallet and dapp both support the “custom RPC endpoints”), a stable URL where that RPC is defined (i.e., if there is an OpenRPC API dictionary published somewhere that wallet and dapp can defer to for the canonical definition of that API; could be the URL of an EIP, for example).</p>
+            </div>
+
+            <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+              <meta itemprop="interactionType" content="http://schema.org/LikeAction"/>
+              <meta itemprop="userInteractionCount" content="0" />
+              <span class='post-likes'></span>
+            </div>
+
+          </div>
+          <div id='post_7' itemprop='comment' itemscope itemtype='http://schema.org/Comment' class='topic-body crawler-post'>
+            <div class='crawler-post-meta'>
+              <span class="creator" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <a itemprop="url" href='https://ethereum-magicians.org/u/tomarsachin2271'><span itemprop='name'>tomarsachin2271</span></a>
+                
+              </span>
+
+
+
+              <span class="crawler-post-infos">
+                  <time itemprop='datePublished' datetime='2024-06-03T10:39:27Z' class='post-time'>
+                    June 3, 2024, 10:39am
+                  </time>
+                  <meta itemprop='dateModified' content='2024-06-03T10:39:27Z'>
+              <span itemprop='position'>7</span>
+              </span>
+            </div>
+            <div class='post' itemprop='text'>
+              <p>Just like Uniswap has <a href="https://tokenlists.org/" rel="noopener nofollow ugc">token list</a>, similarly as asset list could be maintained for other types of assets as well.</p>
+<p>You mentioned ‘just in time’ funding of accounts. Can you give an example of this? Like how would this rpc will return a different result as compared to erc20.balanceOf() ?</p>
+            </div>
+
+            <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+              <meta itemprop="interactionType" content="http://schema.org/LikeAction"/>
+              <meta itemprop="userInteractionCount" content="0" />
+              <span class='post-likes'></span>
+            </div>
+
+          </div>
+          <div id='post_8' itemprop='comment' itemscope itemtype='http://schema.org/Comment' class='topic-body crawler-post'>
+            <div class='crawler-post-meta'>
+              <span class="creator" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <a itemprop="url" href='https://ethereum-magicians.org/u/MUHAMMADIHSANALIKAP'><span itemprop='name'>MUHAMMADIHSANALIKAP</span></a>
+                
+              </span>
+
+
+
+              <span class="crawler-post-infos">
+                  <time itemprop='datePublished' datetime='2024-08-27T14:24:23Z' class='post-time'>
+                    August 27, 2024,  2:24pm
+                  </time>
+                  <meta itemprop='dateModified' content='2024-08-27T14:24:23Z'>
+              <span itemprop='position'>8</span>
+              </span>
+            </div>
+            <div class='post' itemprop='text'>
+              <p>Sir, I really agree with you. Appreciate your efforts.</p>
+            </div>
+
+            <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+              <meta itemprop="interactionType" content="http://schema.org/LikeAction"/>
+              <meta itemprop="userInteractionCount" content="0" />
+              <span class='post-likes'></span>
+            </div>
+
+          </div>
+    </div>
+
+
+    
+
+
+
+
+    </div>
+    <footer class="container wrap">
+  <nav class='crawler-nav'>
+    <ul>
+      <li itemscope itemtype='http://schema.org/SiteNavigationElement'>
+        <span itemprop='name'>
+          <a href='/' itemprop="url">Home </a>
+        </span>
+      </li>
+      <li itemscope itemtype='http://schema.org/SiteNavigationElement'>
+        <span itemprop='name'>
+          <a href='/categories' itemprop="url">Categories </a>
+        </span>
+      </li>
+      <li itemscope itemtype='http://schema.org/SiteNavigationElement'>
+        <span itemprop='name'>
+          <a href='/guidelines' itemprop="url">Guidelines </a>
+        </span>
+      </li>
+        <li itemscope itemtype='http://schema.org/SiteNavigationElement'>
+          <span itemprop='name'>
+            <a href='/tos' itemprop="url">Terms of Service </a>
+          </span>
+        </li>
+        <li itemscope itemtype='http://schema.org/SiteNavigationElement'>
+          <span itemprop='name'>
+            <a href='/privacy' itemprop="url">Privacy Policy </a>
+          </span>
+        </li>
+    </ul>
+  </nav>
+  <p class='powered-by-link'>Powered by <a href="https://www.discourse.org">Discourse</a>, best viewed with JavaScript enabled</p>
+</footer>
+
+    
+    
+  </body>
+  
+</html>
